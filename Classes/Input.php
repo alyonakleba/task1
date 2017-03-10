@@ -18,7 +18,6 @@ class Input
         't:'    => 'to:'
     ];
 
-
     /**
      * Get CLI request options
      *
@@ -29,32 +28,19 @@ class Input
     {
         $options = getopt(implode('', array_keys($this->arguments)), array_values($this->arguments));
 
-        if (empty($options) === true) {
+        if (empty($options)) {
             throw new Exception('Passed invalid arguments');
         }
 
-        if (isset($options['path']) || isset($options['p']))  {
-            $options['path'] = isset( $options['path'] ) ? $options['path'] : $options['p'];
-        } else {
-            throw new Exception('File is required');
-        }
+        foreach($this->arguments as $shortArg => $longArg) {
+            $shortArg = substr($shortArg, 0, -1);
+            $longArg = substr($longArg, 0, -1);
 
-        if (isset($options['criteria']) || isset($options['c']))  {
-            $options['criteria'] = isset( $options['criteria'] ) ? $options['criteria'] : $options['c'];
-        } else {
-            throw new Exception('Criteria field is required');
-        }
-
-        if (isset($options['from']) || isset($options['f']))  {
-            $options['from'] = isset( $options['from'] ) ? $options['from'] : $options['f'];
-        } else {
-            throw new Exception('Min criteria is required');
-        }
-
-        if (isset($options['to']) || isset($options['t']))  {
-            $options['to'] = isset( $options['to'] ) ? $options['to'] : $options['t'];
-        } else {
-            throw new Exception('Max criteria is required');
+            if(array_key_exists($longArg, $options) || array_key_exists($shortArg, $options)) {
+                $options[$longArg] = array_key_exists($longArg, $options) ? $options[$longArg] : $options[$shortArg];
+            } else {
+                throw new Exception('Option "'.$longArg.'" or "'.$shortArg.'" is required');
+            }
         }
 
         return $options;
