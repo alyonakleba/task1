@@ -9,7 +9,7 @@
 
 ```
     
-##### _-p is equal to --path_
-##### _-c is equal to --criteria_
-##### _-f is equal to --from_
-##### _-t is equal to --to_
+##### _-p is equal to --path_ - path to XML file
+##### _-c is equal to --criteria_ - criteria field
+##### _-f is equal to --from_ - min criteria value
+##### _-t is equal to --to_ - max criteria value
